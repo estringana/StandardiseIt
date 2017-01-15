@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Standard extends Model
 {
-	protected $guarded = [];
+    protected $guarded = [];
 
-	public function scopeProposed($query)
-	{
-		return $query->whereNotNull('proposed_at');
-	}
+    public function scopeProposed($query)
+    {
+        return $query->whereNotNull('proposed_at');
+    }
 }

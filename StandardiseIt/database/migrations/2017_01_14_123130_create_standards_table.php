@@ -14,11 +14,11 @@ class CreateStandardsTable extends Migration
     public function up()
     {
         Schema::create('standards', function (Blueprint $table) {
-			$table->increments('id');
-			$table->string('title');
-			$table->longText('proposition');
-			$table->dateTime('proposed_at')->nullable();
-			$table->timestamps();
+            $table->increments('id');
+            $table->string('title');
+            $table->longText('proposition');
+            $table->dateTime('proposed_at')->nullable();
+            $table->timestamps();
         });
     }
 

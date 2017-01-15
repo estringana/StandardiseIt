@@ -22,22 +22,22 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Standard::class, function() {
-	return [
-		'title' => 'Space after the negation symbol',
-		'proposition' => 'Add an space after the negation symbol',
-		'created_at' => Carbon\Carbon::now(),
-	];
+$factory->define(App\Standard::class, function () {
+    return [
+        'title' => 'Space after the negation symbol',
+        'proposition' => 'Add an space after the negation symbol',
+        'created_at' => Carbon\Carbon::now(),
+    ];
 });
 
 $factory->state(App\Standard::class, 'proposed', function () {
-	return [
-		'proposed_at' => Carbon\Carbon::parse('-1 week'),
-	];
+    return [
+        'proposed_at' => Carbon\Carbon::parse('-1 week'),
+    ];
 });
 
 $factory->state(App\Standard::class, 'unproposed', function () {
-	return [
-		'proposed_at' => null,
-	];
+    return [
+        'proposed_at' => null,
+    ];
 });
