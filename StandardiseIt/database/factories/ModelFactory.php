@@ -10,8 +10,13 @@
 | database. Just tell the factory how a default model should look.
 |
 */
+use App\Standard;
+use Carbon\Carbon;
+use App\User;
+use Faker\Generator as FakerGenerator;
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+
+$factory->define(User::class, function (FakerGenerator $faker) {
     static $password;
 
     return [
@@ -22,21 +27,21 @@ $factory->define(App\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Standard::class, function () {
+$factory->define(Standard::class, function () {
     return [
         'title' => 'Space after the negation symbol',
         'proposition' => 'Add an space after the negation symbol',
-        'created_at' => Carbon\Carbon::now(),
+        'created_at' => Carbon::now(),
     ];
 });
 
-$factory->state(App\Standard::class, 'proposed', function () {
+$factory->state(Standard::class, 'proposed', function () {
     return [
-        'proposed_at' => Carbon\Carbon::parse('-1 week'),
+        'proposed_at' => Carbon::parse('-1 week'),
     ];
 });
 
-$factory->state(App\Standard::class, 'unproposed', function () {
+$factory->state(Standard::class, 'unproposed', function () {
     return [
         'proposed_at' => null,
     ];
