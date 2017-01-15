@@ -9,7 +9,7 @@ class StandardsController extends Controller
 {
 	public function show($id)
 	{
-		$standard = Standard::find($id);
+		$standard = Standard::proposed()->findOrFail($id);
 
 		return view('standards.show', ['standard' => $standard]);
 	} 

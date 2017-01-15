@@ -17,8 +17,7 @@ class CreateStandardsTable extends Migration
 			$table->increments('id');
 			$table->string('title');
 			$table->longText('proposition');
-			$table->dateTime('proposed_at');
-			$table->string('status');
+			$table->dateTime('proposed_at')->nullable();
 			$table->timestamps();
         });
     }
