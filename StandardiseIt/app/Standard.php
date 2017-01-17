@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
+use App\Exceptions\StateTransitionNotAllowed;
 
 class Standard extends Model
 {
@@ -16,7 +17,12 @@ class Standard extends Model
 
     public function propose()
     {
+        if ($this->isProposed()) {
+            throw new StateTransitionNotAllowed();
+        }
+
         $this->proposed_at = Carbon::now();
+        $this->save();
     }
 
     public function isProposed()

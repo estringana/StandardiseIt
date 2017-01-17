@@ -5,6 +5,7 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Carbon\Carbon;
 use App\Standard;
+use App\Exceptions\StateTransitionNotAllowed;
 
 class StandardTest extends TestCase
 {
@@ -38,5 +39,20 @@ class StandardTest extends TestCase
         $standard->propose();
         
         $this->assertTrue($standard->isProposed());
+    }
+
+    /** @test **/
+    public function standards_can_not_be_proposed_twice()
+    {
+        $standard = factory(Standard::class)->states('proposed')
+            ->create([]);
+
+        try {
+            $standard->propose();
+        } catch (StateTransitionNotAllowed $e) {
+            return;
+        }
+
+        $this->fail('A Standard which is already proposed, can not be proposed again.');
     }
 }
