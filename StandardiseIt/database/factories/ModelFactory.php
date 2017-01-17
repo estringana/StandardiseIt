@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use App\User;
 use Faker\Generator as FakerGenerator;
 
-
 $factory->define(User::class, function (FakerGenerator $faker) {
     static $password;
 

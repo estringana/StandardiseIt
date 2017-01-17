@@ -14,7 +14,6 @@ class UserCanViewStandardsTest extends TestCase
     public function user_can_view_a_proposed_standard_listing()
     {
         $now = Carbon::now();
-        $oneWeekAgo = Carbon::parse('-1 week');
         $standard = factory(Standard::class)->states('proposed')
             ->create([
                 'title' => 'Space after the negation symbol',
@@ -27,11 +26,11 @@ class UserCanViewStandardsTest extends TestCase
         $this->see('Space after the negation symbol');
         $this->see('Add an space after the negation symbol');
         $this->see($now);
-        $this->see($oneWeekAgo);
+        $this->see($standard->proposed_at);
     }
 
     /** @test **/
-    public function user_can_not_see_non_proposed_standards()
+    public function user_can_not_see_unproposed_standards()
     {
         $standard = factory(Standard::class)->states('unproposed')
             ->create([]);
