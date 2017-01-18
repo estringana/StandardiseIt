@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 Route::get('/standards/{id}', 'StandardsController@show');
 Route::put('/standards/{id}/propose', 'StandardsController@propose');
+Route::put('/standards/{id}/approve', 'StandardsController@approve');
