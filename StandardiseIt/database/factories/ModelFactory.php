@@ -15,7 +15,6 @@ use Carbon\Carbon;
 use App\User;
 use Faker\Generator as FakerGenerator;
 
-
 $factory->define(User::class, function (FakerGenerator $faker) {
     static $password;
 
@@ -37,12 +36,12 @@ $factory->define(Standard::class, function () {
 
 $factory->state(Standard::class, 'proposed', function () {
     return [
-        'proposed_at' => Carbon::parse('-1 week'),
+        'status' => 'proposed'
     ];
 });
 
 $factory->state(Standard::class, 'unproposed', function () {
     return [
-        'proposed_at' => null,
+        'status' => 'created',
     ];
 });
