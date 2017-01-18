@@ -26,4 +26,16 @@ class StandardsController extends Controller
         }
         return response('', 204);
     }
+
+    public function approve($id)
+    {
+        $standard = Standard::findOrFail($id);
+
+        try {
+            $standard->approve();
+        } catch (StateTransitionNotAllowed $e) {
+            return response('', 409);
+        }
+        return response('', 204);
+    }
 }

@@ -26,7 +26,6 @@ class UserCanViewStandardsTest extends TestCase
         $this->see('Space after the negation symbol');
         $this->see('Add an space after the negation symbol');
         $this->see($now);
-        $this->see($standard->proposed_at);
     }
 
     /** @test **/

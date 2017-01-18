@@ -55,4 +55,15 @@ class StandardTest extends TestCase
 
         $this->fail('A Standard which is already proposed, can not be proposed again.');
     }
+
+    /** @test **/
+    public function standards_can_be_approved()
+    {
+        $standard = factory(Standard::class)->states('proposed')
+            ->create([]);
+
+        $standard->approve();
+
+        $this->assertTrue($standard->isApproved());
+    }
 }
