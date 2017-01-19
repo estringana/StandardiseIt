@@ -20,6 +20,7 @@ class Standard extends Model
         $this->stateMachine = new StateMachine();
         $this->stateMachine->addAllowedTransition('created', 'proposed');
         $this->stateMachine->addAllowedTransition('proposed', 'approved');
+        $this->stateMachine->addAllowedTransition('proposed', 'rejected');
     }
 
     protected function transitionTo($to)
@@ -57,5 +58,15 @@ class Standard extends Model
     public function isApproved()
     {
         return $this->status == 'approved';
+    }
+
+    public function reject()
+    {
+        $this->transitionTo('rejected');
+    }
+
+    public function isRejected()
+    {
+        return $this->status == 'rejected';
     }
 }

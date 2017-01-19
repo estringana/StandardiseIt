@@ -66,4 +66,15 @@ class StandardTest extends TestCase
 
         $this->assertTrue($standard->isApproved());
     }
+
+    /** @test **/
+    public function standards_can_be_rejected_from_proposed()
+    {
+        $standard = factory(Standard::class)->states('proposed')
+            ->create([]);
+
+        $standard->reject();
+
+        $this->assertTrue($standard->isRejected());
+    }
 }
