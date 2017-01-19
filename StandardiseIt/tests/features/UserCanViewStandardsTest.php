@@ -31,7 +31,7 @@ class UserCanViewStandardsTest extends TestCase
     /** @test **/
     public function user_can_not_see_unproposed_standards()
     {
-        $standard = factory(Standard::class)->states('unproposed')
+        $standard = factory(Standard::class)->states('created')
             ->create([]);
 
         $this->get('/standards/'.$standard->id);

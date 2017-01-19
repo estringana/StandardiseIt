@@ -16,7 +16,7 @@ class UserCanProposeStandardsTest extends TestCase
         $this->disableExceptionHandling();
 
         $now = Carbon::now();
-        $standard = factory(Standard::class)->states('unproposed')
+        $standard = factory(Standard::class)->states('created')
             ->create([
                 'title' => 'Space after the negation symbol',
                 'proposition' => 'Add an space after the negation symbol',

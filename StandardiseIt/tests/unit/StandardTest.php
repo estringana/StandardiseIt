@@ -18,7 +18,7 @@ class StandardTest extends TestCase
             ->create([]);
         $proposedStandardB = factory(Standard::class)->states('proposed')
             ->create([]);
-        $unProposedStandard = factory(Standard::class)->states('unproposed')
+        $unProposedStandard = factory(Standard::class)->states('created')
             ->create([]);
 
         $proposedStandards = Standard::proposed()->get();
@@ -31,7 +31,7 @@ class StandardTest extends TestCase
     /** @test **/
     public function standards_can_be_proposed()
     {
-        $standard = factory(Standard::class)->states('unproposed')
+        $standard = factory(Standard::class)->states('created')
             ->create([]);
 
         $this->assertFalse($standard->isProposed());
@@ -65,5 +65,71 @@ class StandardTest extends TestCase
         $standard->approve();
 
         $this->assertTrue($standard->isApproved());
+    }
+
+    /** @test **/
+    public function standards_can_be_rejected_from_proposed()
+    {
+        $standard = factory(Standard::class)->states('proposed')
+            ->create([]);
+
+        $standard->reject();
+
+        $this->assertTrue($standard->isRejected());
+    }
+
+    public function provideValideStatusTransitions()
+    {
+        return [
+            ['from' => 'created', 'to' => 'proposed'],
+            ['from' => 'proposed', 'to' => 'approved'],
+            ['from' => 'proposed', 'to' => 'rejected'],
+        ];
+    }
+
+    /**
+    * @test
+    * @dataProvider provideValideStatusTransitions
+    */
+    public function it_test_all_possible_transitions_of_standards(string $from, string $to)
+    {
+        $standard = factory(Standard::class)->states($from)
+            ->create([]);
+
+        $standard->transitionTo($to);
+
+        $this->assertTrue($standard->isInStatus($to));
+    }
+
+    public function provideInValidStatusTransitions()
+    {
+        return [
+            ['from' => 'created', 'to' => 'created'],
+            ['from' => 'created', 'to' => 'approved'],
+            ['from' => 'created', 'to' => 'rejected'],
+            ['from' => 'proposed', 'to' => 'created'],
+            ['from' => 'proposed', 'to' => 'proposed'],
+            ['from' => 'approved', 'to' => 'created'],
+            ['from' => 'approved', 'to' => 'proposed'],
+            ['from' => 'approved', 'to' => 'approved'],
+            ['from' => 'rejected', 'to' => 'created'],
+            ['from' => 'rejected', 'to' => 'proposed'],
+            ['from' => 'rejected', 'to' => 'approved'],
+            ['from' => 'rejected', 'to' => 'rejected'],
+        ];
+    }
+
+    /**
+    * @test
+    * @dataProvider provideInValidStatusTransitions
+    */
+    public function it_test_all_invalid_transitions_of_standards(string $from, string $to)
+    {
+        $standard = factory(Standard::class)->states($from)
+            ->create([]);
+
+        $this->setExpectedException(StateTransitionNotAllowed::class);
+
+        $standard->transitionTo($to);
     }
 }

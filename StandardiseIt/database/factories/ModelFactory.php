@@ -34,14 +34,10 @@ $factory->define(Standard::class, function () {
     ];
 });
 
-$factory->state(Standard::class, 'proposed', function () {
-    return [
-        'status' => 'proposed'
-    ];
-});
-
-$factory->state(Standard::class, 'unproposed', function () {
-    return [
-        'status' => 'created',
-    ];
-});
+foreach (Standard::STATUSES as $status) {
+    $factory->state(Standard::class, $status, function () use ($status) {
+        return [
+            'status' => $status
+        ];
+    });
+}

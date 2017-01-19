@@ -9,6 +9,7 @@ use App\Library\StateMachine;
 
 class Standard extends Model
 {
+    const STATUSES = ['created', 'proposed', 'approved', 'rejected'];
     protected $guarded = [];
 
     /** @var StateMachine **/
@@ -20,9 +21,10 @@ class Standard extends Model
         $this->stateMachine = new StateMachine();
         $this->stateMachine->addAllowedTransition('created', 'proposed');
         $this->stateMachine->addAllowedTransition('proposed', 'approved');
+        $this->stateMachine->addAllowedTransition('proposed', 'rejected');
     }
 
-    protected function transitionTo($to)
+    public function transitionTo($to)
     {
         $from = $this->status;
 
@@ -32,6 +34,11 @@ class Standard extends Model
 
         $this->status = $to;
         $this->save();
+    }
+
+    public function isInStatus($status)
+    {
+        return $this->status == $status;
     }
 
     public function scopeProposed($query)
@@ -46,7 +53,7 @@ class Standard extends Model
 
     public function isProposed()
     {
-        return $this->status == 'proposed';
+        return $this->isInStatus('proposed');
     }
 
     public function approve()
@@ -56,6 +63,16 @@ class Standard extends Model
     
     public function isApproved()
     {
-        return $this->status == 'approved';
+        return $this->isInStatus('approved');
+    }
+
+    public function reject()
+    {
+        $this->transitionTo('rejected');
+    }
+
+    public function isRejected()
+    {
+        return $this->isInStatus('rejected');
     }
 }
