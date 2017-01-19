@@ -27,7 +27,7 @@ class UserCanApproveStandardsTest extends TestCase
     /** @test **/
     public function user_can_not_approve_unproposed_standards()
     {
-        $standard = factory(Standard::class)->states('unproposed')
+        $standard = factory(Standard::class)->states('created')
             ->create([]);
 
         $this->put(
