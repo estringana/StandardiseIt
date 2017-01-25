@@ -34,11 +34,11 @@ class StandardTest extends TestCase
         $standard = factory(Standard::class)->states('created')
             ->create([]);
 
-        $this->assertFalse($standard->isProposed());
+        $this->assertFalse($standard->isInStatus('proposed'));
 
-        $standard->propose();
+        $standard->transitionTo('proposed');
         
-        $this->assertTrue($standard->isProposed());
+        $this->assertTrue($standard->isInStatus('proposed'));
     }
 
     /** @test **/
@@ -48,7 +48,7 @@ class StandardTest extends TestCase
             ->create([]);
 
         try {
-            $standard->propose();
+            $standard->transitionTo('proposed');
         } catch (StateTransitionNotAllowed $e) {
             return;
         }
@@ -57,14 +57,14 @@ class StandardTest extends TestCase
     }
 
     /** @test **/
-    public function standards_can_be_approved()
+    public function standards_can_be_approved_from_proposed()
     {
         $standard = factory(Standard::class)->states('proposed')
             ->create([]);
 
-        $standard->approve();
+        $standard->transitionTo('approved');
 
-        $this->assertTrue($standard->isApproved());
+        $this->assertTrue($standard->isInStatus('approved'));
     }
 
     /** @test **/
@@ -73,9 +73,9 @@ class StandardTest extends TestCase
         $standard = factory(Standard::class)->states('proposed')
             ->create([]);
 
-        $standard->reject();
+        $standard->transitionTo('rejected');
 
-        $this->assertTrue($standard->isRejected());
+        $this->assertTrue($standard->isInStatus('rejected'));
     }
 
     public function provideValideStatusTransitions()

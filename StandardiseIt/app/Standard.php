@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
 use App\Exceptions\StateTransitionNotAllowed;
 use App\Library\StateMachine;
+use App\Standard\StatusDecorableInterface;
 
-class Standard extends Model
+class Standard extends Model implements StatusDecorableInterface
 {
     const STATUSES = ['created', 'proposed', 'approved', 'rejected'];
+    
     protected $guarded = [];
 
     /** @var StateMachine **/
@@ -24,7 +26,7 @@ class Standard extends Model
         $this->stateMachine->addAllowedTransition('proposed', 'rejected');
     }
 
-    public function transitionTo($to)
+    public function transitionTo(string $to)
     {
         $from = $this->status;
 
@@ -36,7 +38,7 @@ class Standard extends Model
         $this->save();
     }
 
-    public function isInStatus($status)
+    public function isInStatus(string $status): bool
     {
         return $this->status == $status;
     }
@@ -44,35 +46,5 @@ class Standard extends Model
     public function scopeProposed($query)
     {
         return $query->where('status', 'proposed');
-    }
-
-    public function propose()
-    {
-        $this->transitionTo('proposed');
-    }
-
-    public function isProposed()
-    {
-        return $this->isInStatus('proposed');
-    }
-
-    public function approve()
-    {
-        $this->transitionTo('approved');
-    }
-    
-    public function isApproved()
-    {
-        return $this->isInStatus('approved');
-    }
-
-    public function reject()
-    {
-        $this->transitionTo('rejected');
-    }
-
-    public function isRejected()
-    {
-        return $this->isInStatus('rejected');
     }
 }
