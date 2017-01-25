@@ -3,14 +3,14 @@
 namespace App\Standard;
 
 class StatusesDecorator implements StatusDecorableInterface
-{    
-	/**  @var Standard **/
-	protected $standard;
+{
+    /**  @var Standard **/
+    protected $standard;
 
-	public function __construct(StatusDecorableInterface $standard)
-	{
-		$this->standard = $standard;
-	}
+    public function __construct(StatusDecorableInterface $standard)
+    {
+        $this->standard = $standard;
+    }
 
     public function reject()
     {
@@ -40,15 +40,15 @@ class StatusesDecorator implements StatusDecorableInterface
     public function isApproved(): bool
     {
         return $this->isInStatus('approved');
-	}
+    }
 
-	public function transitionTo(string $status)
-	{
-		$this->standard->transitionTo($status);
-	}
+    public function transitionTo(string $status)
+    {
+        $this->standard->transitionTo($status);
+    }
 
-	public function isInStatus(string $status): bool
-	{
-		return $this->standard->isInStatus($status);
-	}
+    public function isInStatus(string $status): bool
+    {
+        return $this->standard->isInStatus($status);
+    }
 }

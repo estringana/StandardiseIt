@@ -15,19 +15,19 @@ class StandardsController extends Controller
         $decoratedStandard = Standard::proposed()->findOrFail($id);
 
         return view('standards.show', ['standard' => $decoratedStandard]);
-	}
+    }
 
-	protected function getOrderById($id): Standard
-	{
-		return Standard::findOrFail($id);
-	}
+    protected function getOrderById($id): Standard
+    {
+        return Standard::findOrFail($id);
+    }
 
-	protected function getDecoratedOrderById($id): StatusDecorableInterface
-	{
-		return new StatusesDecorator(
-			$this->getOrderById($id)
-		);	
-	}
+    protected function getDecoratedOrderById($id): StatusDecorableInterface
+    {
+        return new StatusesDecorator(
+            $this->getOrderById($id)
+        );
+    }
 
     public function propose($id)
     {

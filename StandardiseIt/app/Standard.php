@@ -10,9 +10,9 @@ use App\Standard\StatusDecorableInterface;
 
 class Standard extends Model implements StatusDecorableInterface
 {
-	const STATUSES = ['created', 'proposed', 'approved', 'rejected'];
-	
-	protected $guarded = [];
+    const STATUSES = ['created', 'proposed', 'approved', 'rejected'];
+    
+    protected $guarded = [];
 
     /** @var StateMachine **/
     protected $stateMachine;
